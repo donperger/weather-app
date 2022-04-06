@@ -1,3 +1,4 @@
+import coutryList from 'iso-3166-1';
 const apiKey = '7f89d5237ab00448abd5917a1fcda1e1';
 
 async function getCoord(cityName) {
@@ -32,17 +33,17 @@ async function getWeatherData(city) {
   }
 }
 
-function processData(weatehrData) {
-  const feelsLike = weatehrData.daily[0].feels_like;
+function processData(weatherData) {
+  const feelsLike = weatherData.feels_like;
   const feels_like_day = feelsLike.day;
   const feels_like_night = feelsLike.night;
-  const humidity = weatehrData.daily[0].humidity;
-  const temperature = weatehrData.daily[0].temp;
+  const humidity = weatherData.humidity;
+  const temperature = weatherData.temp;
   const temperature_day = temperature.day;
   const temperature_night = temperature.night;
-  const uvindex = weatehrData.daily[0].uvi;
-  const iconId = weatehrData.daily[0].weather[0].icon;
-  const avgWindSpeed = weatehrData.daily[0].wind_speed;
+  const uvindex = weatherData.uvi;
+  const iconId = weatherData.weather[0].icon;
+  const avgWindSpeed = weatherData.wind_speed;
 
   return {
     feels_like_day,
@@ -64,4 +65,21 @@ async function getIcon(id) {
   return resp;
 }
 
-export { getWeatherData, processData, getIcon };
+function getAllCountry() {
+  return coutryList.all();
+}
+
+function getDates() {
+  const today = new Date();
+  const dates = [today.toLocaleDateString('en-US')];
+
+  for (let i = 1; i < 8; i++) {
+    const day = new Date();
+    day.setDate(today.getDate() + i);
+    dates.push(day.toLocaleDateString('en-US'));
+  }
+
+  return dates;
+}
+
+export { getWeatherData, processData, getIcon, getAllCountry, getDates };
