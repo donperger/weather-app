@@ -1,6 +1,11 @@
 import './style/header.css';
-import { getWeatherData, processData } from './scripts/data';
-import { displayHeaderDate, fillUpCountrySelector } from './scripts/dom';
+import './style/todaycard.css';
+import { getIcon, getWeatherData, processData } from './scripts/data';
+import {
+  createTodayCard,
+  displayHeaderDate,
+  fillUpCountrySelector,
+} from './scripts/dom';
 
 const serachBtn = document.querySelector('.search-btn');
 const cityInput = document.querySelector('#city');
@@ -12,6 +17,8 @@ serachBtn.addEventListener('click', () =>
   console.log(cityInput.value, countryInput.value)
 );
 
-// getWeatherData('Budapest').then((resp) =>
-//   console.log(processData(resp.daily[0]))
-// );
+getWeatherData('Budapest').then((resp) => {
+  const unproccesseddata = resp.daily[0];
+  const processedData = processData(unproccesseddata);
+  createTodayCard(processedData);
+});

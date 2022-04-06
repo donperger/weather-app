@@ -1,6 +1,8 @@
 import coutryList from 'iso-3166-1';
 import format from 'date-fns/format';
+
 const apiKey = '7f89d5237ab00448abd5917a1fcda1e1';
+const giphyApiKey = 'dBvd3yjgUf3MSFg4PHokeHfOIOIN0onn';
 
 async function getCoord(cityName) {
   try {
@@ -45,6 +47,7 @@ function processData(weatherData) {
   const uvindex = weatherData.uvi;
   const iconId = weatherData.weather[0].icon;
   const avgWindSpeed = weatherData.wind_speed;
+  const search_word = weatherData.weather[0].description;
 
   return {
     feels_like_day,
@@ -55,6 +58,7 @@ function processData(weatherData) {
     uvindex,
     iconId,
     avgWindSpeed,
+    search_word,
   };
 }
 
@@ -86,4 +90,22 @@ function getDates() {
   return dates;
 }
 
-export { getWeatherData, processData, getIcon, getAllCountry, getDates };
+async function getGif(searchWord) {
+  const resp = await fetch(
+    `https://api.giphy.com/v1/gifs/translate?api_key=${giphyApiKey}&s=${searchWord}`,
+    { mode: 'cors' }
+  );
+
+  const gif = await resp.json();
+
+  return gif.data.images.original;
+}
+
+export {
+  getWeatherData,
+  processData,
+  getIcon,
+  getAllCountry,
+  getDates,
+  getGif,
+};

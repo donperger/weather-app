@@ -1,9 +1,10 @@
-import { getIcon } from './data';
+import { getGif, getIcon } from './data';
 import { getDates, getAllCountry } from './data';
 
 const todayCont = document.querySelector('.today-container');
 const countryDropdown = document.querySelector('#country');
 const todayDiv = document.querySelector('.today');
+const body = document.querySelector('body');
 
 const dates = getDates();
 const countries = getAllCountry();
@@ -23,7 +24,6 @@ function fillUpCountrySelector() {
 }
 
 async function createTodayCard(todayWeatherData) {
-  console.log(todayWeatherData);
   const todayCard = document.createElement('div');
   todayCard.classList.add('today-card');
 
@@ -57,9 +57,13 @@ async function createTodayCard(todayWeatherData) {
   const infoList = creatInfoList(
     todayWeatherData.avgWindSpeed,
     todayWeatherData.humidity,
-    todayWeatherData.uvindex
+    todayWeatherData.uvindex,
+    'today-info'
   );
   todayCard.appendChild(infoList);
+
+  const gif = await getGif(todayWeatherData.search_word);
+  body.style.backgroundImage = `url(${gif.url})`;
 
   todayDiv.appendChild(todayCard);
 }
@@ -86,10 +90,10 @@ function creatInfoList(avgWind, humidity, uvIndex, className) {
   list.classList.add(className);
 
   const windListItem = document.createElement('li');
-  windListItem.textContent = `Avarage wind speed: ${avgWind}`;
+  windListItem.textContent = `Avarage wind speed: ${avgWind} m/s`;
 
   const humidityListItem = document.createElement('li');
-  humidityListItem.textContent = `Humidity: ${humidity}`;
+  humidityListItem.textContent = `Humidity: ${humidity} %`;
 
   const uvIndexListItem = document.createElement('li');
   uvIndexListItem.textContent = `UV index: ${uvIndex}`;
