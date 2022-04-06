@@ -59,11 +59,14 @@ function processData(weatherData) {
 }
 
 async function getIcon(id) {
-  const resp = await fetch(`http://openweathermap.org/img/wn/${id}.png`, {
-    mode: 'cors',
-  });
-
-  return resp;
+  try {
+    const resp = await fetch(`http://openweathermap.org/img/wn/${id}.png`, {
+      mode: 'cors',
+    });
+    return resp;
+  } catch (err) {
+    console.log(err);
+  }
 }
 
 function getAllCountry() {
