@@ -32,4 +32,36 @@ async function getWeatherData(city) {
   }
 }
 
-export { getWeatherData };
+function processData(weatehrData) {
+  const feelsLike = weatehrData.daily[0].feels_like;
+  const feels_like_day = feelsLike.day;
+  const feels_like_night = feelsLike.night;
+  const humidity = weatehrData.daily[0].humidity;
+  const temperature = weatehrData.daily[0].temp;
+  const temperature_day = temperature.day;
+  const temperature_night = temperature.night;
+  const uvindex = weatehrData.daily[0].uvi;
+  const iconId = weatehrData.daily[0].weather[0].icon;
+  const avgWindSpeed = weatehrData.daily[0].wind_speed;
+
+  return {
+    feels_like_day,
+    feels_like_night,
+    humidity,
+    temperature_day,
+    temperature_night,
+    uvindex,
+    iconId,
+    avgWindSpeed,
+  };
+}
+
+async function getIcon(id) {
+  const resp = await fetch(`http://openweathermap.org/img/wn/${id}.png`, {
+    mode: 'cors',
+  });
+
+  return resp;
+}
+
+export { getWeatherData, processData, getIcon };
