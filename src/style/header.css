@@ -1,4 +1,131 @@
-.content {
-  background-color: #000;
-  color: #fff;
+:root {
+  --header-bg-clr: #659dbd;
+  --light-font-clr: #fff;
+  --dark-font-clr: #424242;
+  --form-ctrl-bg-crl: #fff;
+  --form-ctrl-active-crl: #fbeec1;
+  --placeholder-font-clr: #424242;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+header {
+  box-sizing: border-box;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem;
+  height: 3rem;
+  font-size: 1.5rem;
+  background-color: var(--header-bg-clr);
+  color: var(--light-font-clr);
+}
+
+.app-name {
+  font-weight: bold;
+}
+
+#city,
+#country,
+.search-btn {
+  box-sizing: border-box;
+  height: 1.5rem;
+}
+
+#city {
+  border-radius: 0.2rem;
+  border-style: none;
+  border: 0.1rem solid var(--dark-font-clr);
+  background-color: var(--form-ctrl-bg-crl);
+}
+
+.select {
+  position: relative;
+  display: inline-block;
+  width: 12rem;
+  font-weight: bold;
+}
+.select select {
+  font-family: 'Arial';
+  display: inline-block;
+  width: 12rem;
+  padding: 0 0.4rem;
+  cursor: pointer;
+  outline: 0;
+  border: 0px solid #000000;
+  border-radius: 0.2rem;
+  background: var(--form-ctrl-bg-crl);
+  color: var(--dark-font-clr);
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  transition: 0.2s;
+}
+.select select::-ms-expand {
+  display: none;
+}
+.select select:hover,
+.select select:focus {
+  color: #000000;
+  background: #cccccc;
+}
+.select select:disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+.select_arrow {
+  position: absolute;
+  top: 1rem;
+  right: 0.5rem;
+  pointer-events: none;
+  border-style: solid;
+  border-width: 8px 5px 0px 5px;
+  border-color: #7b7b7b transparent transparent transparent;
+}
+.select select:hover ~ .select_arrow,
+.select select:focus ~ .select_arrow {
+  border-top-color: #000000;
+}
+.select select:disabled ~ .select_arrow {
+  border-top-color: #cccccc;
+}
+
+.search-btn {
+  border: 0.1rem solid #424242;
+  border-radius: 0.2rem;
+  background-color: var(--form-ctrl-bg-crl);
+  color: var(--dark-font-clr);
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.search-btn:hover {
+  background-color: #8d8742;
+  color: var(--light-font-clr);
+}
+
+.search-btn:active {
+  position: relative;
+  bottom: 0.2rem;
+}
+
+::placeholder {
+  /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: var(--placeholder-font-clr);
+  opacity: 1; /* Firefox */
+}
+
+:-ms-input-placeholder {
+  /* Internet Explorer 10-11 */
+  color: var(--placeholder-font-clr);
+}
+
+::-ms-input-placeholder {
+  /* Microsoft Edge */
+  color: var(--placeholder-font-clr);
 }
