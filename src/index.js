@@ -1,4 +1,4 @@
 import './style/header.css';
+import { getWeatherData } from './scripts/data';
 
-const cont = document.querySelector('.content');
-cont.textContent = 'Hello form JS!';
+getWeatherData('Budapest').then((resp) => console.log(resp));
