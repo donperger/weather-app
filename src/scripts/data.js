@@ -1,4 +1,5 @@
 import coutryList from 'iso-3166-1';
+import format from 'date-fns/format';
 const apiKey = '7f89d5237ab00448abd5917a1fcda1e1';
 
 async function getCoord(cityName) {
@@ -71,24 +72,12 @@ function getAllCountry() {
 
 function getDates() {
   const today = new Date();
-  const dates = [
-    today.toLocaleDateString('en-US', {
-      month: '2-digit',
-      day: '2-digit',
-      year: '2-digit',
-    }),
-  ];
+  const dates = [format(today, 'MMMM dd, y')];
 
   for (let i = 1; i < 8; i++) {
     const day = new Date();
     day.setDate(today.getDate() + i);
-    dates.push(
-      day.toLocaleDateString('en-US', {
-        month: '2-digit',
-        day: '2-digit',
-        year: '2-digit',
-      })
-    );
+    dates.push(format(day, 'MMMM dd'));
   }
 
   return dates;
