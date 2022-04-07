@@ -1,4 +1,5 @@
 :root {
+  --header-height: 3rem;
   --header-bg-clr: #659dbd;
   --light-font-clr: #fff;
   --dark-font-clr: #424242;
@@ -21,7 +22,7 @@ header {
   justify-content: space-between;
   align-items: center;
   padding: 0.5rem;
-  height: 3rem;
+  height: var(--header-height);
   font-size: 1.5rem;
   background-color: var(--header-bg-clr);
   color: var(--light-font-clr);
@@ -132,6 +133,16 @@ header {
   color: var(--placeholder-font-clr);
 }
 
+.cards {
+  height: calc(100vh - var(--header-height) - var(--footer-height));
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.loading-indicator {
+  height: 20rem;
+}
+
 .footer-container {
   position: absolute;
   bottom: 0;
@@ -152,4 +163,10 @@ header {
 
 .github-icon {
   height: var(--footer-height);
+}
+
+.error-msg {
+  font-size: 1.5rem;
+  color: red;
+  font-weight: bold;
 }

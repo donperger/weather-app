@@ -9,6 +9,7 @@ import {
   displayHeaderDate,
   fillUpCountrySelector,
   fillForecast,
+  showLoadingIndicator,
 } from './scripts/dom';
 
 const serachBtn = document.querySelector('.search-btn');
@@ -18,6 +19,7 @@ const countryInput = document.querySelector('#country');
 displayHeaderDate();
 fillUpCountrySelector();
 serachBtn.addEventListener('click', () => {
+  showLoadingIndicator();
   const city = capitalizeEveryFirstLetter(cityInput.value);
   getWeatherData(city, countryInput.value).then((resp) => {
     const unproccesseddata = resp.daily;
@@ -30,6 +32,7 @@ serachBtn.addEventListener('click', () => {
   });
 });
 
+showLoadingIndicator();
 getWeatherData('Budapest', 'HU').then((resp) => {
   const unproccesseddata = resp.daily;
   const processedData = unproccesseddata.map((dailyData) => {

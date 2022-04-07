@@ -1,10 +1,13 @@
 import coutryList from 'iso-3166-1';
 import format from 'date-fns/format';
+import { displayError } from './dom';
 
 const apiKey = '7f89d5237ab00448abd5917a1fcda1e1';
 const giphyApiKey = 'dBvd3yjgUf3MSFg4PHokeHfOIOIN0onn';
 
 async function getCoord(cityName, countryCode) {
+  const countryName = coutryList.whereAlpha2(countryCode).country;
+
   try {
     const resp = await fetch(
       `http://api.openweathermap.org/geo/1.0/direct?q=${cityName},${countryCode}&limit=5&appid=${apiKey}`,
@@ -18,8 +21,7 @@ async function getCoord(cityName, countryCode) {
 
     return { lat, lon };
   } catch (err) {
-    const countryName = coutryList.whereAlpha2(countryCode).country;
-    alert(`Sorry, there is no city called ${cityName} in ${countryName} `);
+    displayError('no city', cityName, countryName);
   }
 }
 
@@ -116,7 +118,9 @@ async function getGif(searchWord) {
 
   const gif = await resp.json();
 
-  return gif.data.images.original;
+  if (gif.data.images.original) {
+    return gif.data.images.original;
+  }
 }
 
 export {
