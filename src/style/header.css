@@ -4,7 +4,7 @@
   --dark-font-clr: #424242;
   --form-ctrl-bg-crl: #fff;
   --form-ctrl-active-crl: #fbeec1;
-  --placeholder-font-clr: #424242;
+  --placeholder-font-clr: rgba(66, 66, 66, 0.5);
 }
 
 body {
