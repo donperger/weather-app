@@ -27,6 +27,11 @@ async function createTodayCard(todayWeatherData) {
   const todayCard = document.createElement('div');
   todayCard.classList.add('today-card');
 
+  const cityCountryTitle = document.createElement('h1');
+  cityCountryTitle.classList.add('city-and-country');
+  cityCountryTitle.textContent = `${todayWeatherData.city}, ${todayWeatherData.country}`;
+  todayCard.appendChild(cityCountryTitle);
+
   const cardTitle = document.createElement('h2');
   cardTitle.textContent = 'Today';
   todayCard.appendChild(cardTitle);
@@ -55,6 +60,7 @@ async function createTodayCard(todayWeatherData) {
   todayCard.appendChild(feelsLikeTemperatureContainer);
 
   const infoList = creatInfoList(
+    todayWeatherData.search_word,
     todayWeatherData.avgWindSpeed,
     todayWeatherData.humidity,
     todayWeatherData.uvindex,
@@ -64,6 +70,8 @@ async function createTodayCard(todayWeatherData) {
 
   const gif = await getGif(todayWeatherData.search_word);
   body.style.backgroundImage = `url(${gif.url})`;
+
+  todayDiv.textContent = '';
 
   todayDiv.appendChild(todayCard);
 }
@@ -85,9 +93,12 @@ function makeTemperatureContainer(name, dayTemperature, nightTemperature) {
   return temperatureContainer;
 }
 
-function creatInfoList(avgWind, humidity, uvIndex, className) {
+function creatInfoList(description, avgWind, humidity, uvIndex, className) {
   const list = document.createElement('ul');
   list.classList.add(className);
+
+  const descriptionItem = document.createElement('li');
+  descriptionItem.textContent = capitalizeFirstLetter(description);
 
   const windListItem = document.createElement('li');
   windListItem.textContent = `Avarage wind speed: ${avgWind} m/s`;
@@ -98,9 +109,13 @@ function creatInfoList(avgWind, humidity, uvIndex, className) {
   const uvIndexListItem = document.createElement('li');
   uvIndexListItem.textContent = `UV index: ${uvIndex}`;
 
-  list.append(windListItem, humidityListItem, uvIndexListItem);
+  list.append(descriptionItem, windListItem, humidityListItem, uvIndexListItem);
 
   return list;
+}
+
+function capitalizeFirstLetter(string) {
+  return string[0].toUpperCase() + string.substring(1);
 }
 
 export { displayHeaderDate, fillUpCountrySelector, createTodayCard };
