@@ -1,5 +1,8 @@
+import './img/icons8-github.svg';
+
 import './style/header.css';
 import './style/todaycard.css';
+
 import { getWeatherData, processData } from './scripts/data';
 import {
   createTodayCard,

@@ -5,6 +5,8 @@
   --form-ctrl-bg-crl: #fff;
   --form-ctrl-active-crl: #fbeec1;
   --placeholder-font-clr: rgba(66, 66, 66, 0.5);
+  --footer-height: 5vh;
+  --footer-bg-color: #fbeec1;
 }
 
 body {
@@ -128,4 +130,26 @@ header {
 ::-ms-input-placeholder {
   /* Microsoft Edge */
   color: var(--placeholder-font-clr);
+}
+
+.footer-container {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: var(--footer-bg-color);
+  height: var(--footer-height);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+}
+
+.github-link {
+  margin: 0 0.5rem;
+  color: var(--dark-font-clr);
+}
+
+.github-icon {
+  height: var(--footer-height);
 }
