@@ -142,11 +142,14 @@ function capitalizeFirstLetter(string) {
 function fillForecast(dailyData) {
   forecastDiv.textContent = '';
   const forecastDates = dates.slice(1);
+  const elements = [];
 
   dailyData.forEach((forecast, index) => {
-    createForecastCard(forecast, forecastDates[index], index).then((resp) => {
-      forecastDiv.appendChild(resp);
-    });
+    elements.push(createForecastCard(forecast, forecastDates[index], index));
+  });
+
+  Promise.all(elements).then((responses) => {
+    responses.forEach((resp) => forecastDiv.appendChild(resp));
   });
 }
 
