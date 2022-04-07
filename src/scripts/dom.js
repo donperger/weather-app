@@ -1,6 +1,8 @@
 import { getGif, getIcon } from './data';
 import { getDates, getAllCountry } from './data';
 
+import loadingIndicator from '../img/Book.gif';
+
 const todayCont = document.querySelector('.today-container');
 const countryDropdown = document.querySelector('#country');
 const todayDiv = document.querySelector('.today');
@@ -191,9 +193,42 @@ function converToFahrenheit(dayTemp, nightTemp) {
   return { dayTempF, nightTempF };
 }
 
+function showLoadingIndicator() {
+  cleanPage();
+
+  const indicatorImg = document.createElement('img');
+  indicatorImg.classList.add('loading-indicator');
+  indicatorImg.src = loadingIndicator;
+
+  todayDiv.appendChild(indicatorImg);
+}
+
+function displayError(erroType, city, country) {
+  const errorDiv = document.createElement('div');
+  errorDiv.classList.add('error-msg');
+
+  cleanPage();
+
+  if (erroType === 'no city') {
+    errorDiv.textContent = `Sorry, can't find ${city} in ${country}. :(`;
+  } else {
+    errorDiv.textContent = "Can't find weather forecast. :(";
+  }
+
+  todayDiv.appendChild(errorDiv);
+}
+
+function cleanPage() {
+  body.style.backgroundImage = 'none';
+  todayDiv.textContent = '';
+  forecastDiv.textContent = '';
+}
+
 export {
   displayHeaderDate,
   fillUpCountrySelector,
   createTodayCard,
   fillForecast,
+  showLoadingIndicator,
+  displayError,
 };
