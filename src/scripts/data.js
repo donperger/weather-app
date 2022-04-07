@@ -10,7 +10,7 @@ async function getCoord(cityName, countryCode) {
 
   try {
     const resp = await fetch(
-      `http://api.openweathermap.org/geo/1.0/direct?q=${cityName},${countryCode}&limit=5&appid=${apiKey}`,
+      `https://api.openweathermap.org/geo/1.0/direct?q=${cityName},${countryCode}&limit=5&appid=${apiKey}`,
       { mode: 'cors' }
     );
     const cityData = await resp.json();
@@ -84,7 +84,7 @@ function processData(weatherData, cityName, countryCode) {
 
 async function getIcon(id) {
   try {
-    const resp = await fetch(`http://openweathermap.org/img/wn/${id}.png`, {
+    const resp = await fetch(`https://openweathermap.org/img/wn/${id}.png`, {
       mode: 'cors',
     });
     return resp;
