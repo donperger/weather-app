@@ -4,6 +4,7 @@ import { getDates, getAllCountry } from './data';
 const todayCont = document.querySelector('.today-container');
 const countryDropdown = document.querySelector('#country');
 const todayDiv = document.querySelector('.today');
+const forecastDiv = document.querySelector('.forecast');
 const body = document.querySelector('body');
 
 const dates = getDates();
@@ -79,15 +80,33 @@ async function createTodayCard(todayWeatherData) {
 function makeTemperatureContainer(name, dayTemperature, nightTemperature) {
   const temperatureContainer = document.createElement('div');
   const containerClass = name.toLowerCase().replaceAll(' ', '-') + '-container';
-  temperatureContainer.classList.add(containerClass);
+  temperatureContainer.classList.add(containerClass, 'temperature-box');
 
   const temperatureTitle = document.createElement('div');
   temperatureTitle.textContent = `${name}`;
 
   const temperature = document.createElement('div');
-  temperature.textContent = `${Math.round(dayTemperature)}/${Math.round(
+  temperature.classList.add('temperature-text');
+  temperature.textContent = `${Math.round(dayTemperature)} °C / ${Math.round(
     nightTemperature
-  )}`;
+  )} °C`;
+
+  temperature.addEventListener('click', () => {
+    const unit = temperature.textContent.split(' ').pop();
+
+    if (unit === '°C') {
+      const convertedTemp = converToFahrenheit(
+        dayTemperature,
+        nightTemperature
+      );
+
+      temperature.textContent = `${convertedTemp.dayTempF} °F / ${convertedTemp.nightTempF} °F`;
+    } else {
+      temperature.textContent = `${Math.round(
+        dayTemperature
+      )} °C / ${Math.round(nightTemperature)} °C`;
+    }
+  });
   temperatureContainer.append(temperatureTitle, temperature);
 
   return temperatureContainer;
@@ -118,4 +137,63 @@ function capitalizeFirstLetter(string) {
   return string[0].toUpperCase() + string.substring(1);
 }
 
-export { displayHeaderDate, fillUpCountrySelector, createTodayCard };
+function fillForecast(dailyData) {
+  forecastDiv.textContent = '';
+  const forecastDates = dates.slice(1);
+
+  dailyData.forEach((forecast, index) => {
+    createForecastCard(forecast, forecastDates[index], index).then((resp) => {
+      forecastDiv.appendChild(resp);
+    });
+  });
+}
+
+async function createForecastCard(forecastData, forecastDate, index) {
+  const forecastCard = document.createElement('div');
+  forecastCard.classList.add(`forecast-${index}`);
+
+  const forecastDatteTitle = document.createElement('h2');
+  forecastDatteTitle.textContent = forecastDate;
+  forecastCard.appendChild(forecastDatteTitle);
+
+  const imgContainer = document.createElement('div');
+  imgContainer.classList.add('img-container-forecast');
+  const img = document.createElement('img');
+  img.classList.add('img-forecast');
+  const imgObj = await getIcon(forecastData.iconId);
+  img.src = imgObj.url;
+  imgContainer.appendChild(img);
+  forecastCard.appendChild(imgContainer);
+
+  const realTemperatureContainer = makeTemperatureContainer(
+    'Temperature',
+    forecastData.temperature_day,
+    forecastData.temperature_night
+  );
+  forecastCard.appendChild(realTemperatureContainer);
+
+  const infoList = creatInfoList(
+    forecastData.search_word,
+    forecastData.avgWindSpeed,
+    forecastData.humidity,
+    forecastData.uvindex,
+    'info-forecast'
+  );
+  forecastCard.appendChild(infoList);
+
+  return forecastCard;
+}
+
+function converToFahrenheit(dayTemp, nightTemp) {
+  const dayTempF = Math.round(dayTemp * 1.8 + 32);
+  const nightTempF = Math.round(nightTemp * 1.8 + 32);
+
+  return { dayTempF, nightTempF };
+}
+
+export {
+  displayHeaderDate,
+  fillUpCountrySelector,
+  createTodayCard,
+  fillForecast,
+};

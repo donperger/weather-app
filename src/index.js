@@ -1,13 +1,14 @@
 import './img/icons8-github.svg';
 
 import './style/main.css';
-import './style/todaycard.css';
+import './style/cards.css';
 
 import { getWeatherData, processData } from './scripts/data';
 import {
   createTodayCard,
   displayHeaderDate,
   fillUpCountrySelector,
+  fillForecast,
 } from './scripts/dom';
 
 const serachBtn = document.querySelector('.search-btn');
@@ -19,20 +20,24 @@ fillUpCountrySelector();
 serachBtn.addEventListener('click', () => {
   const city = capitalizeEveryFirstLetter(cityInput.value);
   getWeatherData(city, countryInput.value).then((resp) => {
-    const unproccesseddata = resp.daily[0];
-    const processedData = processData(
-      unproccesseddata,
-      city,
-      countryInput.value
-    );
-    createTodayCard(processedData);
+    const unproccesseddata = resp.daily;
+    const processedData = unproccesseddata.map((dailyData) => {
+      return processData(dailyData, city, countryInput.value);
+    });
+
+    createTodayCard(processedData[0]);
+    fillForecast(processedData.slice(1));
   });
 });
 
 getWeatherData('Budapest', 'HU').then((resp) => {
-  const unproccesseddata = resp.daily[0];
-  const processedData = processData(unproccesseddata, 'Budapest', 'HU');
-  createTodayCard(processedData);
+  const unproccesseddata = resp.daily;
+  const processedData = unproccesseddata.map((dailyData) => {
+    return processData(dailyData, 'Budapest', 'HU');
+  });
+
+  createTodayCard(processedData[0]);
+  fillForecast(processedData.slice(1));
 });
 
 function capitalizeEveryFirstLetter(string) {

@@ -60,3 +60,44 @@ li:first-child {
   font-size: 1.2rem;
   font-weight: bold;
 }
+
+.temperature-text {
+  box-sizing: border-box;
+  cursor: pointer;
+  padding: 0.2rem 0.5rem;
+  transition: 0.2s;
+  border: 0.1rem solid rgba(192, 192, 192, 0);
+}
+
+.temperature-text:hover {
+  border: 0.1rem solid #424242;
+  border-radius: 0.2rem;
+  background-color: rgba(192, 192, 192, 0.5);
+}
+
+.forecast {
+  box-sizing: border-box;
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem;
+}
+
+[class^='forecast-'] {
+  box-sizing: border-box;
+  background-color: var(--card-bg-clr);
+  width: 10rem;
+  padding: 0.5rem;
+  border: 0.2rem solid #000;
+  border-radius: 0.5rem;
+  display: grid;
+  place-items: center;
+}
+
+.temperature-container {
+  margin-bottom: 1rem;
+}
+
+.temperature-container,
+.info-forecast {
+  text-align: center;
+}
