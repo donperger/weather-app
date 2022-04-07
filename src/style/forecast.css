@@ -1,0 +1,26 @@
+:root {
+  --card-bg-clr: rgba(140, 133, 64, 0.8);
+}
+
+.forecast {
+  box-sizing: border-box;
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem;
+}
+
+[class^='forecast-'] {
+  box-sizing: border-box;
+  background-color: var(--card-bg-clr);
+  width: 10rem;
+  padding: 0.5rem;
+  border: 0.2rem solid #000;
+  border-radius: 0.5rem;
+  display: grid;
+  place-items: center;
+}
+
+.temperature-container,
+.info-forecast {
+  text-align: center;
+}
