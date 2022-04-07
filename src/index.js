@@ -1,6 +1,6 @@
 import './style/header.css';
 import './style/todaycard.css';
-import { getIcon, getWeatherData, processData } from './scripts/data';
+import { getWeatherData, processData } from './scripts/data';
 import {
   createTodayCard,
   displayHeaderDate,
@@ -13,12 +13,30 @@ const countryInput = document.querySelector('#country');
 
 displayHeaderDate();
 fillUpCountrySelector();
-serachBtn.addEventListener('click', () =>
-  console.log(cityInput.value, countryInput.value)
-);
+serachBtn.addEventListener('click', () => {
+  const city = capitalizeEveryFirstLetter(cityInput.value);
+  getWeatherData(city, countryInput.value).then((resp) => {
+    const unproccesseddata = resp.daily[0];
+    const processedData = processData(
+      unproccesseddata,
+      city,
+      countryInput.value
+    );
+    createTodayCard(processedData);
+  });
+});
 
-getWeatherData('Budapest').then((resp) => {
+getWeatherData('Budapest', 'HU').then((resp) => {
   const unproccesseddata = resp.daily[0];
-  const processedData = processData(unproccesseddata);
+  const processedData = processData(unproccesseddata, 'Budapest', 'HU');
   createTodayCard(processedData);
 });
+
+function capitalizeEveryFirstLetter(string) {
+  const words = string.split(' ');
+  const capitalizedWords = words.map((word) => {
+    return word[0].toUpperCase() + word.substring(1).toLowerCase();
+  });
+
+  return capitalizedWords.join(' ');
+}
